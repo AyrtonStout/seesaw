@@ -9,4 +9,4 @@ Build with
 `wasm-pack build --target web`
 
 Copy it to the website directory so it can be read in
-`cp pkg/wasm_parser_* ../website/public/build`
+`cp pkg/wasm_parser* ../website/public/build`
