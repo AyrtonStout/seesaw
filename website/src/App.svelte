@@ -1,6 +1,7 @@
 <script lang="ts">
 	import logStore from "./logStore";
 	import parseLogs from "./parseLogs";
+	import { formatISO } from 'date-fns';
 
 	function handleFileUpload(e: any) {
 		const file = e.target.files[0];
@@ -32,8 +33,8 @@
 		</thead>
 		<tbody>
 			{#each $logStore as logLine}
-				<tr>
-					<td>{logLine.timestamp}</td>
+				<tr style="color: {logLine.severity.color}">
+					<td>{formatISO(logLine.timestamp)}</td>
 					<td>{logLine.severity.displayName}</td>
 					<td>{logLine.message}</td>
 				</tr>
