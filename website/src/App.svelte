@@ -1,11 +1,12 @@
 <script lang="ts">
-	import logStore from "./logStore";
-	import parseLogs from "./parseLogs";
+	import logStore from './logStore';
+	import activeConfigStore from './activeConfigStore';
+	import parseLogs from './parseLogs';
 	import { formatISO } from 'date-fns';
+	import { get } from 'svelte/store';
 
 	function handleFileUpload(e: any) {
 		const file = e.target.files[0];
-		console.log("Changed", file);
 
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -15,7 +16,8 @@
 				return;
 			}
 
-			logStore.set(parseLogs(result));
+			// The fact that Svelte made "get" a helper function (that isn't even performant [it's just a helper that subscribes and unsubscribes]) is a giant joke, imo
+			logStore.set(parseLogs(result, get(activeConfigStore)));
 		};
 		reader.readAsText(file);
 	}
