@@ -1,46 +1,37 @@
 <script lang="ts">
 	import logStore from './logStore';
-	import activeConfigStore from './activeConfigStore';
-	import parseLogs from './parseLogs';
+	import Header from './Header.svelte';
 	import { formatISO } from 'date-fns';
-	import { get } from 'svelte/store';
+	import VirtualList from '@sveltejs/svelte-virtual-list';
 
-	function handleFileUpload(e: any) {
-		const file = e.target.files[0];
-
-		const reader = new FileReader();
-		reader.onload = () => {
-			const result = reader.result;
-			if (typeof result !== "string") {
-				console.error("Invalid type from file upload!");
-				return;
-			}
-
-			// The fact that Svelte made "get" a helper function (that isn't even performant [it's just a helper that subscribes and unsubscribes]) is a giant joke, imo
-			logStore.set(parseLogs(result, get(activeConfigStore)));
-		};
-		reader.readAsText(file);
-	}
+	const timestampWidth = 300;
+	const severityWidth = 100;
 </script>
 
-<main>
-	<input id="log-upload" type="file" on:change={handleFileUpload} />
-	<table>
-		<thead>
-			<tr>
-				<th>Timestamp</th>
-				<th>Severity</th>
-				<th>Message</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each $logStore as logLine}
-				<tr style="color: {logLine.severity.color}">
-					<td>{formatISO(logLine.timestamp)}</td>
-					<td>{logLine.severity.displayName}</td>
-					<td>{logLine.message}</td>
-				</tr>
-			{/each}
-		</tbody>
-	</table>
+<style>
+	.column {
+		flex-shrink: 0;
+	}
+</style>
+
+<main class="full-height flex-column">
+	<Header/>
+	<div class="flex-column flex-grow-1">
+		<div class="d-flex">
+			<div class="column" style="width: {timestampWidth}px">Timestamp</div>
+			<div class="column" style="width: {severityWidth}px">Severity</div>
+			<div style="">Message</div>
+		</div>
+
+		<div class="flex-grow-1">
+            <!-- If you omit the height, it sets to 100%, which seems like it would be what we want. But it lags uncontrollably -->
+			<VirtualList items={$logStore} let:item height="1800px">
+				<div class="d-flex" style="color: {item.severity.color}">
+					<div class="column" style="width: {timestampWidth}px">{formatISO(item.timestamp)}</div>
+					<div class="column" style="width: {severityWidth}px">{item.severity.displayName}</div>
+					<div style="">{item.message}</div>
+				</div>
+			</VirtualList>
+		</div>
+	</div>
 </main>

@@ -2,12 +2,7 @@ import { writable } from "svelte/store";
 import type { LogLine } from "./LogLyfe";
 
 const createLogStore = () => {
-    const { set, subscribe } = writable(new Array<LogLine>());
-
-    return {
-        set,
-        subscribe,
-    };
+    return writable(new Array<LogLine>());
 };
 
 export default createLogStore();
