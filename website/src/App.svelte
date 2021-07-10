@@ -1,4 +1,6 @@
 <script lang="ts">
+	import ConfigEdit from './ConfigEdit.svelte';
+	import configVisibleStore from './log-config/configVisibleStore';
 	import logStore from './logStore';
 	import Header from './Header.svelte';
 	import { formatISO } from 'date-fns';
@@ -6,16 +8,36 @@
 
 	const timestampWidth = 300;
 	const severityWidth = 100;
+
+	function closeModal() {
+		configVisibleStore.set(false);
+	}
 </script>
 
 <style>
 	.column {
 		flex-shrink: 0;
 	}
+
+	#config-edit-modal-background {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: #00000099;
+	}
+
+	#config-edit-modal {
+		width: 100%;
+		height: 100%;
+		margin: 50px;
+		background-color: #FFFFFF;
+	}
 </style>
 
 <main class="full-height flex-column">
 	<Header/>
+
+	{ $configVisibleStore }
 	<div class="flex-column flex-grow-1">
 		<div class="d-flex">
 			<div class="column" style="width: {timestampWidth}px">Timestamp</div>
@@ -32,6 +54,12 @@
 					<div style="">{item.message}</div>
 				</div>
 			</VirtualList>
+		</div>
+	</div>
+
+	<div id="config-edit-modal-background" style="visibility: {$configVisibleStore ? 'visible' : 'hidden'}" on:click={closeModal}>
+		<div id="config-edit-modal" on:click={e => e.stopPropagation()}>
+			<ConfigEdit/>
 		</div>
 	</div>
 </main>

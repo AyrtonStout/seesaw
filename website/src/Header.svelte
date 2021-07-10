@@ -1,11 +1,12 @@
 <script lang="ts">
 	import activeConfigStore from './activeConfigStore';
+	import configVisibleStore from './log-config/configVisibleStore';
 	import logStore from "./logStore";
 	import parseLogs from "./parseLogs";
 	import { get } from "svelte/store";
 
 	function editLogConfig() {
-		console.log('Edit log config')
+        configVisibleStore.set(true);
 	}
 
 	function handleFileUpload(e: any) {
