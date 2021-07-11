@@ -27,9 +27,10 @@
 	}
 
 	#config-edit-modal {
-		width: 100%;
-		height: 100%;
-		margin: 50px;
+		width: 1200px;
+		height: 80vh;
+		overflow: auto;
+		margin: 80px auto;
 		background-color: #FFFFFF;
 	}
 </style>
@@ -37,7 +38,6 @@
 <main class="full-height flex-column">
 	<Header/>
 
-	{ $configVisibleStore }
 	<div class="flex-column flex-grow-1">
 		<div class="d-flex">
 			<div class="column" style="width: {timestampWidth}px">Timestamp</div>

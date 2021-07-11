@@ -1,18 +1,18 @@
 class LogSeverity {
-    severityNameLikeInTheLogLikeDebugOrErrorOrSomething: string;
+    nameInLog: string;
     priority: number;
     displayName: string;
     color: string;
 
     constructor(
-        severityNameLikeInTheLogLikeDebugOrErrorOrSomething: string,
+        nameInLog: string,
         priority: number,
         displayName?: string,
         color: string = '#000000'
     ) {
-        this.severityNameLikeInTheLogLikeDebugOrErrorOrSomething = severityNameLikeInTheLogLikeDebugOrErrorOrSomething;
+        this.nameInLog = nameInLog;
         this.priority = priority;
-        this.displayName = displayName ?? severityNameLikeInTheLogLikeDebugOrErrorOrSomething;
+        this.displayName = displayName ?? nameInLog;
         this.color = color;
     }
 }

@@ -29,7 +29,7 @@ export class LogConfig {
 
         const severityLogNameToLogSeverity = new Map<string, LogSeverity>();
         logSeverities.forEach(severity => {
-            severityLogNameToLogSeverity.set(severity.severityNameLikeInTheLogLikeDebugOrErrorOrSomething, severity);
+            severityLogNameToLogSeverity.set(severity.nameInLog, severity);
         })
 
         this.logSeverities = severityLogNameToLogSeverity;

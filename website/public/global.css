@@ -12,8 +12,22 @@ body {
   height: 100%;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .d-flex {
   display: flex;
+}
+.d-inline-block {
+  display: inline-block;
+}
+.d-block {
+  display: block !important;
+}
+
+.p-relative {
+  position: relative;
 }
 
 .flex-column {
@@ -23,4 +37,8 @@ body {
 
 .flex-grow-1 {
   flex-grow: 1;
+}
+
+.text-center {
+  text-align: center;
 }
