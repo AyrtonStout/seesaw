@@ -9,6 +9,10 @@
 	const timestampWidth = 300;
 	const severityWidth = 100;
 
+	let viewportHeight = 0;
+	let siteHeaderHeight = 0;
+	let tableHeaderHeight = 0;
+
 	function closeModal() {
 		configVisibleStore.set(false);
 	}
@@ -35,11 +39,15 @@
 	}
 </style>
 
+<svelte:window bind:innerHeight={viewportHeight} />
+
 <main class="full-height flex-column">
-	<Header/>
+	<span bind:clientHeight={siteHeaderHeight}>
+		<Header/>
+	</span>
 
 	<div class="flex-column flex-grow-1">
-		<div class="d-flex">
+		<div class="d-flex" bind:clientHeight={tableHeaderHeight}>
 			<div class="column" style="width: {timestampWidth}px">Timestamp</div>
 			<div class="column" style="width: {severityWidth}px">Severity</div>
 			<div style="">Message</div>
@@ -47,7 +55,8 @@
 
 		<div class="flex-grow-1">
             <!-- If you omit the height, it sets to 100%, which seems like it would be what we want. But it lags uncontrollably -->
-			<VirtualList items={$logStore} let:item height="1800px">
+            <!-- I have tried binding variables here to set the height dynamically. Even though it is set correctly in the HTML, nothing appears -->
+			<VirtualList items={$logStore} let:item height="1000px">
 				<div class="d-flex" style="color: {item.severity.color}">
 					<div class="column" style="width: {timestampWidth}px">{formatISO(item.timestamp)}</div>
 					<div class="column" style="width: {severityWidth}px">{item.severity.displayName}</div>

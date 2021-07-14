@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { LogConfig } from "./LogConfig";
+import {CustomLogColumn, LogConfig} from "./LogConfig";
 import { LogSeverity } from "./LogLyfe";
 
 const createActiveConfigStore = () => {
@@ -50,6 +50,11 @@ const defaultConfig = new LogConfig(
     /^\[([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9:]{8} \([\-0-9]{4,8}\))](\[[\-0-9]{4,5}])\[([a-zA-Z0-9]{4,6})]\[TID ([a-zA-Z0-9]{1,8})]\[([a-zA-Z0-9.:]*)]\[([a-zA-Z0-9.:$<>]*)](.*)$/,
     'yyyy-MM-dd HH:mm:ss (xx)',
     logSeverities,
+    [
+        new CustomLogColumn("Thread", 4),
+        new CustomLogColumn("File", 5),
+        new CustomLogColumn("Function", 6),
+    ],
     1,
     3,
     7

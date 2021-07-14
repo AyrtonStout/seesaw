@@ -1,12 +1,34 @@
 <script lang="ts">
-    import activeLogStore from "./activeConfigStore";
-
+    import activeLogStore from './activeConfigStore';
+    import { get } from 'svelte/store';
     import configVisibleStore from './log-config/configVisibleStore';
+    import {CustomLogColumn} from "./LogConfig";
 
     function save() {
         console.log('Saving config')
     }
 
+    function deleteCustomColumn(index) {
+        const config = get(activeLogStore);
+
+        const newColumns = config.customColumns.slice(0)
+        newColumns.splice(index, 1);
+
+        config.customColumns = newColumns;
+        activeLogStore.set(config);
+    }
+
+    function addCustomColumn() {
+        const customColumn = new CustomLogColumn("Custom Column", 0)
+
+        const config = get(activeLogStore);
+        const newColumns = config.customColumns.slice(0)
+
+        newColumns.push(customColumn)
+
+        config.customColumns = newColumns;
+        activeLogStore.set(config);
+    }
 </script>
 
 <style>
@@ -75,6 +97,21 @@
     right: 10px;
     top: calc(50% - 10px);
   }
+
+  .column-name {
+    margin-right: 10px;
+    width: 200px;
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  .delete-button {
+    margin-left: 10px;
+  }
+
+  #add-new-custom-column {
+    margin-top: 10px;
+  }
 </style>
 
 <div id="config-edit">
@@ -91,19 +128,7 @@
     </div>
 
     <div class="section">
-        <h3>Timestamp</h3>
-        <label class="section-label">
-            Format
-            <input class="long-width" value={$activeLogStore.timestampFormat}>
-        </label>
-        <label class="section-label">
-            Regex Group
-            <input class="small-width" value={$activeLogStore.timestampGroup}>
-        </label>
-    </div>
-
-    <div class="section">
-        <h3>Severity</h3>
+        <h3>Severities</h3>
         <label class="section-label">
             Regex Group
             <input class="small-width" value={$activeLogStore.severityGroup}>
@@ -132,11 +157,36 @@
     </div>
 
     <div class="section">
-        <h3>Message</h3>
-        <label class="section-label">
-            Regex Group
-            <input class="small-width" value={$activeLogStore.messageGroup}>
-        </label>
+        <h3>Columns</h3>
+        <div>
+            <div class="column-name">Timestamp</div>
+            <label class="section-label">
+                Regex Group
+                <input class="small-width" value={$activeLogStore.timestampGroup}>
+            </label>
+            <label class="section-label">
+                Format
+                <input class="long-width" value={$activeLogStore.timestampFormat}>
+            </label>
+        </div>
+
+        <div>
+            <div class="column-name">Message</div>
+            <input class="small-width d-inline-block" value={$activeLogStore.messageGroup}>
+        </div>
+
+        {#each $activeLogStore.customColumns as customColumn, i}
+            <div>
+                <input class="column-name" value={customColumn.columnName}>
+                <input class="small-width d-inline-block" value={customColumn.regexGroup}>
+
+                <button class="delete-button" on:click={() => deleteCustomColumn(i)}>Delete</button>
+            </div>
+        {/each}
+
+        <div id="add-new-custom-column">
+            <button on:click={addCustomColumn}>Add new</button>
+        </div>
     </div>
 
     <div>
