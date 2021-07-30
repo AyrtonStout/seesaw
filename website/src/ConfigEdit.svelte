@@ -2,7 +2,7 @@
     import activeLogStore from './activeConfigStore';
     import { get } from 'svelte/store';
     import configVisibleStore from './log-config/configVisibleStore';
-    import {CustomLogColumn} from "./LogConfig";
+    import { CustomLogColumn } from './LogConfig';
 
     function save() {
         console.log('Saving config')

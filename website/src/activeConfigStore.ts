@@ -1,6 +1,6 @@
-import { writable } from "svelte/store";
-import {CustomLogColumn, LogConfig} from "./LogConfig";
-import { LogSeverity } from "./LogLyfe";
+import { writable } from 'svelte/store';
+import { CustomLogColumn, LogConfig } from './LogConfig';
+import { LogSeverity } from './LogLyfe';
 
 const createActiveConfigStore = () => {
     return writable<LogConfig>(defaultConfig);

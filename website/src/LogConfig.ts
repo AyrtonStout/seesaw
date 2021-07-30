@@ -9,6 +9,7 @@ export class LogConfig {
     timestampGroup: number;
     severityGroup: number;
     messageGroup: number;
+    columnOrder: Array<string> = ['Timestamp', 'Severity', 'File', 'Thread', 'Function', 'Message']
 
     constructor(
         configName: string,

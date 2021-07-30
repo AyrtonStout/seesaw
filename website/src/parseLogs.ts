@@ -20,10 +20,17 @@ export default (fileContent: string, config: LogConfig): Array<LogLine> => {
 			return;
 		}
 
+		const customColumns = new Map<string, string>();
+
+		config.customColumns.forEach(columnConfig => {
+			customColumns.set(columnConfig.columnName, results[columnConfig.regexGroup]);
+		});
+
 		const logLine = new LogLine(
 			results[config.messageGroup],
 			config.logSeverities.get(results[config.severityGroup]) ?? unknownSeverity,
-			parse(results[config.timestampGroup], config.timestampFormat, new Date())
+			parse(results[config.timestampGroup], config.timestampFormat, new Date()),
+			customColumns,
 		);
 
 		parsedResults.push(logLine);
